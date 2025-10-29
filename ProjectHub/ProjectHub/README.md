@@ -34,7 +34,7 @@ ASP.NET Core MVC ile geliştirilmiş proje paylaşım ve yönetim platformu.
 
 1. **Projeyi indirin ve çalıştırın:**
    ```bash
-   git clone https://github.com/ozlemharmanci/projecthub.git
+   git clone https://github.com/ozlemharmanci/ProjectHub.git
    cd staj-takip-sistemi
    cd ProjectHub
    dotnet run
