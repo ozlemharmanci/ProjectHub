@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\lenovo\\source\\repos\\ProjectHub\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{0C0357EF-F233-4F18-BABB-5754C0A62B66}|ProjectHub\\ProjectHub.csproj|c:\\users\\lenovo\\source\\repos\\projecthub\\projecthub\\readme.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
+      "RelativeMoniker": "D:0:0:{0C0357EF-F233-4F18-BABB-5754C0A62B66}|ProjectHub\\ProjectHub.csproj|solutionrelative:projecthub\\readme.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "README.md",
+              "DocumentMoniker": "C:\\Users\\lenovo\\source\\repos\\ProjectHub\\ProjectHub\\README.md",
+              "RelativeDocumentMoniker": "ProjectHub\\README.md",
+              "ToolTip": "C:\\Users\\lenovo\\source\\repos\\ProjectHub\\ProjectHub\\README.md",
+              "RelativeToolTip": "ProjectHub\\README.md",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2025-10-29T16:55:31.71Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

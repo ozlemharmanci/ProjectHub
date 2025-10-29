@@ -1,0 +1,32 @@
+﻿@model IEnumerable<ProjectHub.Models.Project>
+
+@{
+    ViewData["Title"] = "Proje Yönetimi";
+}
+
+<h2 class="mb-4">Projeler</h2>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Başlık</th>
+            <th>Yükleyen</th>
+            <th>İşlem</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var project in Model)
+        {
+            <tr>
+                <td>@project.Title</td>
+                <td>@project.OwnerName</td>
+                <td>
+                    <form asp-action="DeleteProject" method="post" class="d-inline">
+                        <input type="hidden" name="projectId" value="@project.Id" />
+                        <button type="submit" class="btn btn-sm btn-danger">Sil</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

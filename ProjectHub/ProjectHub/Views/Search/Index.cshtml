@@ -1,0 +1,113 @@
+﻿@model ProjectHub.Controllers.SearchResults
+
+@{
+    ViewData["Title"] = "Arama Sonuçları";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Arama Sonuçları</h2>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-8">
+                    <input type="text" name="query" value="@Model.Query" class="form-control"
+                           placeholder="Proje, kullanıcı veya açıklama ara..." required />
+                </div>
+                <div class="col-md-2">
+                    <select name="type" class="form-select">
+                        <option value="all" selected="@(Model.SearchType == "all")">Tümü</option>
+                        <option value="projects" selected="@(Model.SearchType == "projects")">Projeler</option>
+                        <option value="users" selected="@(Model.SearchType == "users")">Kullanıcılar</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-search me-1"></i> Ara
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.Query))
+    {
+        @if (Model.Projects.Any())
+        {
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4>Projeler (@Model.Projects.Count)</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row row-cols-1 row-cols-md-2 g-4">
+                        @foreach (var project in Model.Projects)
+                        {
+                            <div class="col">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">@project.Title</h5>
+                                        <p class="card-text">@project.Description</p>
+                                        <div class="d-flex justify-content-between">
+                                            <small class="text-muted">@project.Username</small>
+                                            <small class="text-muted">@project.DownloadCount indirme</small>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <a asp-controller="Project" asp-action="Details" asp-route-id="@project.Id"
+                                           class="btn btn-sm btn-outline-primary">Detayları Gör</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (Model.Users.Any())
+        {
+            <div class="card">
+                <div class="card-header">
+                    <h4>Kullanıcılar (@Model.Users.Count)</h4>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        @foreach (var user in Model.Users)
+                        {
+                            <div class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">
+                                            <a asp-controller="Account" asp-action="Profile"
+                                               asp-route-username="@user.Username" class="text-decoration-none">
+                                                @user.Username
+                                            </a>
+                                        </h6>
+                                        @if (!string.IsNullOrEmpty(user.ProfileBio))
+                                        {
+                                            <p class="mb-1 text-muted">@user.ProfileBio</p>
+                                        }
+                                        <small>@user.FollowerCount takipçi · @user.FollowingCount takip</small>
+                                    </div>
+                                    <a asp-controller="Account" asp-action="Profile"
+                                       asp-route-username="@user.Username" class="btn btn-sm btn-outline-primary">
+                                        Profili Gör
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (!Model.Projects.Any() && !Model.Users.Any())
+        {
+            <div class="text-center py-5">
+                <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                <h4 class="text-muted">Sonuç bulunamadı</h4>
+                <p class="text-muted">"@Model.Query" için hiç sonuç bulunamadı.</p>
+            </div>
+        }
+    }
+</div>

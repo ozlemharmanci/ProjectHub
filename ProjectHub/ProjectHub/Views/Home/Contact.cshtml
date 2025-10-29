@@ -1,0 +1,121 @@
+﻿@{
+    ViewData["Title"] = "İletişim";
+}
+
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h2 class="card-title">İletişim</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4 class="text-primary">İletişim Bilgileri</h4>
+                        <div class="contact-info">
+                            <p>
+                                <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                                <strong>Adres:</strong><br>
+                                Adıyaman Üniversitesi Bilgi İşlem Daire Başkanlığı<br>
+                                Adıyaman, Türkiye
+                            </p>
+                            <p>
+                                <i class="fas fa-envelope text-primary me-2"></i>
+                                <strong>E-posta:</strong><br>
+                                info@projecthub.com<br>
+                                support@projecthub.com
+                            </p>
+                            <p>
+                                <i class="fas fa-phone text-primary me-2"></i>
+                                <strong>Telefon:</strong><br>
+                                0(416) 216 41 08
+                            </p>
+                        </div>
+
+                        <h4 class="text-primary mt-4">Çalışma Saatleri</h4>
+                        <ul class="list-unstyled">
+                            <li>Pazartesi - Cuma: 08:00 - 17:00</li>
+                            <li>Cumartesi: 10:00 - 16:00</li>
+                            <li>Pazar: Kapalı</li>
+                        </ul>
+                    </div>
+
+                    <div class="col-md-6">
+                        <h4 class="text-primary">Bize Mesaj Gönderin</h4>
+                        <form id="contactForm">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Adınız Soyadınız</label>
+                                <input type="text" class="form-control" id="name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">E-posta Adresiniz</label>
+                                <input type="email" class="form-control" id="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="subject" class="form-label">Konu</label>
+                                <input type="text" class="form-control" id="subject" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="message" class="form-label">Mesajınız</label>
+                                <textarea class="form-control" id="message" rows="5" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Gönder</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <h4 class="text-primary">Sıkça Sorulan Sorular</h4>
+                    <div class="accordion" id="faqAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                    Projelerimi nasıl yükleyebilirim?
+                                </button>
+                            </h2>
+                            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Kayıt olduktan sonra "Proje Yükle" sayfasından projenizi ZIP formatında yükleyebilirsiniz.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                    Projeler ne kadar sürede onaylanır?
+                                </button>
+                            </h2>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Projeler genellikle 24-48 saat içinde adminlerimiz tarafından incelenir ve onaylanır.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                    Ücretli bir hizmet mi?
+                                </button>
+                            </h2>
+                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Hayır, ProjectHub tamamen ücretsiz bir platformdur.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            alert('Mesajınız alınmıştır! En kısa sürede sizinle iletişime geçeceğiz.');
+            this.reset();
+        });
+    </script>
+}

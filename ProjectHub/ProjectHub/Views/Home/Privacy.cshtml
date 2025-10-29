@@ -1,0 +1,223 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gizlilik Politikası</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .card-header {
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .card-header:hover {
+            background-color: rgba(0, 0, 0, 0.05) !important;
+        }
+        .accordion-icon {
+            transition: transform 0.3s;
+        }
+        .collapsed .accordion-icon {
+            transform: rotate(0deg);
+        }
+        .accordion-icon {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="card shadow">
+                    <div class="card-header bg-info text-white">
+                        <h2 class="card-title mb-0"><i class="fas fa-shield-alt me-2"></i>Gizlilik Politikası</h2>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="accordion" id="privacyAccordion">
+
+                            <div class="accordion-item">
+                                <h3 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button text-primary fs-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        <i class="fas fa-door-open me-2"></i>1. Giriş
+                                    </button>
+                                </h3>
+                                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#privacyAccordion">
+                                    <div class="accordion-body">
+                                        <p>
+                                            ProjectHub olarak, gizliliğinize önem veriyoruz. Bu gizlilik politikası,
+                                            kişisel verilerinizin nasıl toplandığını, kullanıldığını ve korunduğunu açıklar.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h3 class="accordion-header" id="headingTwo">
+                                    <button class="accordion-button collapsed text-primary fs-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        <i class="fas fa-database me-2"></i>2. Toplanan Veriler
+                                    </button>
+                                </h3>
+                                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#privacyAccordion">
+                                    <div class="accordion-body">
+                                        <h4 class="text-secondary">2.1. Doğrudan Sağladığınız Veriler</h4>
+                                        <ul>
+                                            <li>Kullanıcı adı ve şifre</li>
+                                            <li>E-posta adresi</li>
+                                            <li>Profil bilgileri (bio, profil resmi)</li>
+                                            <li>Yüklediğiniz proje dosyaları</li>
+                                        </ul>
+
+                                        <h4 class="text-secondary">2.2. Otomatik Olarak Toplanan Veriler</h4>
+                                        <ul>
+                                            <li>IP adresi ve tarayıcı bilgileri</li>
+                                            <li>Ziyaret saatleri ve sayfa görüntülemeleri</li>
+                                            <li>Çerezler (cookies)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h3 class="accordion-header" id="headingThree">
+                                    <button class="accordion-button collapsed text-primary fs-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                        <i class="fas fa-cogs me-2"></i>3. Veri Kullanımı
+                                    </button>
+                                </h3>
+                                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#privacyAccordion">
+                                    <div class="accordion-body">
+                                        <p>Topladığımız verileri aşağıdaki amaçlarla kullanırız:</p>
+                                        <ul>
+                                            <li>Hesap oluşturma ve yönetme</li>
+                                            <li>Proje yükleme ve paylaşma</li>
+                                            <li>Platformu geliştirme ve iyileştirme</li>
+                                            <li>Güvenlik ve dolandırıcılık önleme</li>
+                                            <li>Yasal yükümlülükleri yerine getirme</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h3 class="accordion-header" id="headingFour">
+                                    <button class="accordion-button collapsed text-primary fs-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                        <i class="fas fa-share-alt me-2"></i>4. Veri Paylaşımı
+                                    </button>
+                                </h3>
+                                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#privacyAccordion">
+                                    <div class="accordion-body">
+                                        <p>
+                                            Kişisel verilerinizi üçüncü şahıslarla satmayız veya ticari amaçlarla paylaşmayız.
+                                            Ancak aşağıdaki durumlarda paylaşım yapılabilir:
+                                        </p>
+                                        <ul>
+                                            <li>Yasal zorunluluklar gereği</li>
+                                            <li>Platform hizmetlerini sağlamak için (hosting, analiz vb.)</li>
+                                            <li>Kullanıcı güvenliğini sağlamak için</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h3 class="accordion-header" id="headingFive">
+                                    <button class="accordion-button collapsed text-primary fs-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                        <i class="fas fa-lock me-2"></i>5. Veri Güvenliği
+                                    </button>
+                                </h3>
+                                <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#privacyAccordion">
+                                    <div class="accordion-body">
+                                        <p>
+                                            Verilerinizi korumak için uygun teknik ve organizasyonel önlemleri alıyoruz.
+                                            Şifreler hash'lenerek saklanır ve düz metin olarak erişilemez.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h3 class="accordion-header" id="headingSix">
+                                    <button class="accordion-button collapsed text-primary fs-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                                        <i class="fas fa-cookie-bite me-2"></i>6. Çerezler (Cookies)
+                                    </button>
+                                </h3>
+                                <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#privacyAccordion">
+                                    <div class="accordion-body">
+                                        <p>
+                                            Web sitemiz, kullanıcı deneyimini iyileştirmek ve site trafiğini analiz etmek için çerezler kullanır.
+                                            Tarayıcınızın ayarlarından çerezleri kontrol edebilirsiniz.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h3 class="accordion-header" id="headingSeven">
+                                    <button class="accordion-button collapsed text-primary fs-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                                        <i class="fas fa-user-check me-2"></i>7. Haklarınız
+                                    </button>
+                                </h3>
+                                <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven" data-bs-parent="#privacyAccordion">
+                                    <div class="accordion-body">
+                                        <p>Kullanıcı olarak aşağıdaki haklara sahipsiniz:</p>
+                                        <ul>
+                                            <li>Verilerinize erişim hakkı</li>
+                                            <li>Düzeltme hakkı</li>
+                                            <li>Silme hakkı ("unutmama hakkı")</li>
+                                            <li>Veri taşınabilirliği hakkı</li>
+                                            <li>İtiraz hakkı</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h3 class="accordion-header" id="headingEight">
+                                    <button class="accordion-button collapsed text-primary fs-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+                                        <i class="fas fa-exchange-alt me-2"></i>8. Değişiklikler
+                                    </button>
+                                </h3>
+                                <div id="collapseEight" class="accordion-collapse collapse" aria-labelledby="headingEight" data-bs-parent="#privacyAccordion">
+                                    <div class="accordion-body">
+                                        <p>
+                                            Gizlilik politikamızı zaman zaman güncelleyebiliriz. Değişiklikler sitede yayınlandığında yürürlüğe girer.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h3 class="accordion-header" id="headingNine">
+                                    <button class="accordion-button collapsed text-primary fs-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
+                                        <i class="fas fa-address-card me-2"></i>9. İletişim
+                                    </button>
+                                </h3>
+                                <div id="collapseNine" class="accordion-collapse collapse" aria-labelledby="headingNine" data-bs-parent="#privacyAccordion">
+                                    <div class="accordion-body">
+                                        <p>
+                                            Gizlilik politikamızla ilgili sorularınız için <a href="#">İletişim</a>
+                                            sayfamızdan bize ulaşabilirsiniz.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="alert alert-warning mt-4">
+                            <h5 class="alert-heading"><i class="fas fa-exclamation-triangle me-2"></i>Önemli Uyarı</h5>
+                            <p class="mb-0">
+                                Bu gizlilik politikası sadece ProjectHub platformu için geçerlidir.
+                                Platformumuzda paylaştığınız projelerin gizliliğinden siz sorumlusunuz.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

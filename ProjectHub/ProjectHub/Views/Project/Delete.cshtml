@@ -1,0 +1,84 @@
+﻿@model ProjectHub.Models.Project
+
+@{
+    ViewData["Title"] = "Proje Sil";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h3 class="card-title">Proje Sil</h3>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-danger">
+                    <h4 class="alert-heading">Uyarı!</h4>
+                    <p class="mb-0">Bu işlem geri alınamaz. Proje ve tüm ilişkili veriler kalıcı olarak silinecektir.</p>
+                </div>
+
+                <h4>Silinecek Proje Bilgileri</h4>
+                <dl class="row">
+                    <dt class="col-sm-4">Proje Adı:</dt>
+                    <dd class="col-sm-8">@Model.Title</dd>
+
+                    <dt class="col-sm-4">Yükleyen:</dt>
+                    <dd class="col-sm-8">@Model.Username</dd>
+
+                    <dt class="col-sm-4">Yüklenme Tarihi:</dt>
+                    <dd class="col-sm-8">@Model.UploadDate.ToString("dd MMMM yyyy")</dd>
+
+                    <dt class="col-sm-4">İndirme Sayısı:</dt>
+                    <dd class="col-sm-8">@Model.DownloadCount</dd>
+
+                    <dt class="col-sm-4">Dosya Adı:</dt>
+                    <dd class="col-sm-8">@Model.FileName</dd>
+                </dl>
+
+                <h5>Proje Açıklaması</h5>
+                <p class="border p-3 rounded">@Model.Description</p>
+
+                <form asp-action="DeleteConfirmed" method="post">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="FilePath" />
+
+                    <div class="form-group mb-3">
+                        <label for="confirmationText" class="form-label">
+                            Silme işlemini onaylamak için proje adını yazın:
+                        </label>
+                        <input type="text" id="confirmationText" class="form-control"
+                               placeholder="@Model.Title" oninput="validateConfirmation()" />
+                        <small class="form-text text-muted">Lütfen "<strong>@Model.Title</strong>" yazın</small>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" id="deleteButton" class="btn btn-danger w-100" disabled>
+                            <i class="fas fa-trash"></i> Projeyi Kalıcı Olarak Sil
+                        </button>
+                    </div>
+                </form>
+
+                <div class="text-center mt-3">
+                    <a asp-action="MyProjects" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left"></i> İptal ve Geri Dön
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function validateConfirmation() {
+            const confirmationText = document.getElementById('confirmationText');
+            const deleteButton = document.getElementById('deleteButton');
+            const expectedText = '@Model.Title';
+
+            if (confirmationText.value === expectedText) {
+                deleteButton.disabled = false;
+            } else {
+                deleteButton.disabled = true;
+            }
+        }
+    </script>
+}

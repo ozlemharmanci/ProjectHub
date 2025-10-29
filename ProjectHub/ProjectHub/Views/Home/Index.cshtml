@@ -1,0 +1,169 @@
+﻿@model List<ProjectHub.Models.Project>
+
+@{
+    ViewData["Title"] = "ProjectHub - Proje Paylaşım Platformu";
+}
+
+<!-- Ana Banner Bölümü -->
+<div class="hero-section bg-gradient-primary text-white p-5 rounded mb-4 text-center">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h1 class="display-4 fw-bold mb-4">ProjectHub</h1>
+            <p class="lead fs-4 mb-4">
+                Yazılım projelerinizi paylaşın, toplulukla iş birliği yapın ve 
+                diğer geliştiricilerden ilham alın.
+            </p>
+            
+            <div class="d-flex flex-column flex-md-row gap-3 justify-content-center mb-4">
+                @if (string.IsNullOrEmpty(Context.Session.GetString("UserId")))
+                {
+                    <a class="btn btn-light btn-lg px-4 py-2 fw-semibold" asp-controller="Account" asp-action="Login">
+                        <i class="fas fa-sign-in-alt me-2"></i>Giriş Yap
+                    </a>
+                    <a class="btn btn-outline-light btn-lg px-4 py-2 fw-semibold" asp-controller="Account" asp-action="Register">
+                        <i class="fas fa-user-plus me-2"></i>Kayıt Ol
+                    </a>
+                }
+                else
+                {
+                    <a class="btn btn-light btn-lg px-4 py-2 fw-semibold" asp-controller="Project" asp-action="Upload">
+                        <i class="fas fa-cloud-upload-alt me-2"></i>Proje Yükle
+                    </a>
+                    <a class="btn btn-outline-light btn-lg px-4 py-2 fw-semibold" asp-controller="Project" asp-action="MyProjects">
+                        <i class="fas fa-folder me-2"></i>Projelerim
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Özellikler Bölümü -->
+<div class="row mt-5">
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 border-0 shadow-sm feature-card">
+            <div class="card-body text-center p-4">
+                <div class="text-primary mb-3">
+                    <i class="fas fa-upload fa-3x"></i>
+                </div>
+                <h4 class="card-title fw-bold">Kolay Yükleme</h4>
+                <p class="card-text">Projelerinizi ZIP formatında kolayca yükleyin ve toplulukla paylaşın.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 border-0 shadow-sm feature-card">
+            <div class="card-body text-center p-4">
+                <div class="text-success mb-3">
+                    <i class="fas fa-users fa-3x"></i>
+                </div>
+                <h4 class="card-title fw-bold">Aktif Topluluk</h4>
+                <p class="card-text">Diğer geliştiricilerle etkileşim kurun, yorum yapın ve iş birliği yapın.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 border-0 shadow-sm feature-card">
+            <div class="card-body text-center p-4">
+                <div class="text-warning mb-3">
+                    <i class="fas fa-shield-alt fa-3x"></i>
+                </div>
+                <h4 class="card-title fw-bold">Kalite Kontrol</h4>
+                <p class="card-text">Tüm projeler admin onayından geçer, kalite ve güvenlik garantidir.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Neden ProjectHub? Bölümü -->
+<div class="row mt-5">
+    <div class="col-lg-10 mx-auto">
+        <div class="card border-0 shadow">
+            <div class="card-body p-5 text-center">
+                <h2 class="text-primary mb-4">Neden ProjectHub?</h2>
+                
+                <div class="row text-start">
+                    <div class="col-md-6 mb-4">
+                        <div class="d-flex">
+                            <div class="text-primary me-3">
+                                <i class="fas fa-code-branch fa-2x"></i>
+                            </div>
+                            <div>
+                                <h5>Open Source Ruhu</h5>
+                                <p class="text-muted mb-0">Açık kaynak projeleri destekleyin ve katkıda bulunun.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-4">
+                        <div class="d-flex">
+                            <div class="text-success me-3">
+                                <i class="fas fa-graduation-cap fa-2x"></i>
+                            </div>
+                            <div>
+                                <h5>Öğrenme Platformu</h5>
+                                <p class="text-muted mb-0">Diğer geliştiricilerden yeni teknolojiler öğrenin.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-4">
+                        <div class="d-flex">
+                            <div class="text-warning me-3">
+                                <i class="fas fa-network-wired fa-2x"></i>
+                            </div>
+                            <div>
+                                <h5>Network Fırsatı</h5>
+                                <p class="text-muted mb-0">Sektördeki diğer geliştiricilerle bağlantı kurun.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-4">
+                        <div class="d-flex">
+                            <div class="text-info me-3">
+                                <i class="fas fa-briefcase fa-2x"></i>
+                            </div>
+                            <div>
+                                <h5>Portfolyo Oluşturma</h5>
+                                <p class="text-muted mb-0">Projelerinizle yeteneklerinizi sergileyin.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Özel stiller */
+    .hero-section {
+        background: linear-gradient(135deg, #3494E6, #EC6EAD);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #3494E6, #EC6EAD);
+    }
+    
+    .feature-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    .btn {
+        transition: all 0.3s ease;
+    }
+    
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+</style>

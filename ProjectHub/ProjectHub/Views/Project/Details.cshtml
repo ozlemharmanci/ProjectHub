@@ -1,0 +1,136 @@
+﻿@model ProjectHub.Models.Project
+@using ProjectHub.Models
+
+@{
+    ViewData["Title"] = Model.Title;
+    var comments = ViewBag.Comments as List<Comment> ?? new List<Comment>();
+}
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h2 class="card-title">@Model.Title</h2>
+        <p class="text-muted">Yükleyen: <a asp-controller="Account" asp-action="Profile" asp-route-username="@Model.Username">@Model.Username</a> | Tarih: @Model.UploadDate.ToString("dd MMMM yyyy")</p>
+        <p class="card-text">@Model.Description</p>
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <span class="badge bg-@(Model.IsApproved ? "success" : "warning")">@(Model.IsApproved ? "Onaylı" : "Onay Bekliyor")</span>
+                <span class="badge bg-info">İndirme: @Model.DownloadCount</span>
+            </div>
+            <a asp-action="Download" asp-route-id="@Model.Id" class="btn btn-primary">
+                <i class="fas fa-download"></i> İndir
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <h4><i class="fas fa-comments me-2"></i>Yorumlar</h4>
+        <small class="text-muted">Toplam @comments.Count yorum</small>
+    </div>
+    <div class="card-body">
+        @if (comments != null && comments.Count > 0)
+        {
+            <div class="comment-list">
+                @foreach (var comment in comments)
+                {
+                    <div class="comment-item mb-3 p-3 border rounded">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <div>
+                                <strong class="text-primary">@comment.Username</strong>
+                                <small class="text-muted ms-2">
+                                    <i class="fas fa-clock me-1"></i>@comment.CreatedAt.ToString("dd MMMM yyyy HH:mm")
+                                </small>
+                            </div>
+                            @if (Context.Session.GetString("UserId") == comment.UserId)
+                            {
+                                <small class="text-success">(Sizin yorumunuz)</small>
+                            }
+                        </div>
+                        <p class="mb-0">@comment.Text</p>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-4">
+                <i class="fas fa-comment-slash fa-3x text-muted mb-3"></i>
+                <p class="text-muted">Henüz yorum yapılmamış. İlk yorumu siz yapın!</p>
+            </div>
+        }
+
+        @if (!string.IsNullOrEmpty(Context.Session.GetString("UserId")))
+        {
+            <div class="mt-4">
+                <h5><i class="fas fa-edit me-2"></i>Yorum Yap</h5>
+                <form asp-action="AddComment" method="post">
+                    <input type="hidden" name="projectId" value="@Model.Id" />
+                    <div class="form-group">
+                        <textarea name="text" class="form-control" rows="3" placeholder="Proje hakkında düşüncelerinizi yazın..."
+                                  required maxlength="500" oninput="countChars(this)"></textarea>
+                        <small class="text-muted float-end"><span id="charCount">0</span>/500 karakter</small>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-2">
+                        <i class="fas fa-paper-plane me-1"></i> Yorum Gönder
+                    </button>
+                </form>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info mt-3">
+                <i class="fas fa-info-circle me-2"></i>
+                Yorum yapmak için <a asp-controller="Account" asp-action="Login" class="alert-link">giriş yapın</a>.
+            </div>
+        }
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .comment-item {
+            background-color: #f8f9fa;
+            transition: background-color 0.2s ease;
+        }
+
+            .comment-item:hover {
+                background-color: #e9ecef;
+            }
+
+        .comment-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        function countChars(textarea) {
+            const charCount = textarea.value.length;
+            document.getElementById('charCount').textContent = charCount;
+
+            // Karakter sınırına yaklaştıkça rengi değiştir
+            const charCountElement = document.getElementById('charCount');
+            if (charCount > 450) {
+                charCountElement.classList.add('text-warning');
+                charCountElement.classList.remove('text-muted');
+            } else if (charCount > 490) {
+                charCountElement.classList.add('text-danger');
+                charCountElement.classList.remove('text-warning');
+            } else {
+                charCountElement.classList.add('text-muted');
+                charCountElement.classList.remove('text-warning', 'text-danger');
+            }
+        }
+
+        // Sayfa yüklendiğinde mevcut yorumları kontrol et
+        document.addEventListener('DOMContentLoaded', function () {
+            const textarea = document.querySelector('textarea[name="text"]');
+            if (textarea) {
+                countChars(textarea);
+            }
+        });
+    </script>
+}

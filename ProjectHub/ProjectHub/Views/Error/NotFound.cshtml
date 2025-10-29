@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "Sayfa Bulunamadı";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-warning text-white">
+                <h2 class="card-title">404 - Sayfa Bulunamadı</h2>
+            </div>
+            <div class="card-body text-center">
+                <i class="fas fa-map-marker-alt fa-5x text-warning mb-4"></i>
+                <h3>Aradığınız sayfa bulunamadı.</h3>
+                <p class="text-muted">Sayfa kaldırılmış veya taşınmış olabilir.</p>
+
+                <div class="mt-4">
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-primary">
+                        <i class="fas fa-home"></i> Ana Sayfa'ya Dön
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

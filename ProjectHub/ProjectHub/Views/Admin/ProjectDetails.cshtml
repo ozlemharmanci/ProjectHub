@@ -1,0 +1,159 @@
+﻿@model ProjectHub.Models.Project
+
+@{
+    ViewData["Title"] = $"Proje Detayları - {Model.Title}";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Proje Detayları</h2>
+    <a asp-action="Dashboard" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left"></i> Dashboard'a Dön
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h4 class="card-title mb-0">@Model.Title</h4>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <strong>Yükleyen:</strong> @Model.Username<br>
+                        <strong>Kullanıcı ID:</strong> @Model.UserId
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Yüklenme Tarihi:</strong> @Model.UploadDate.ToString("dd MMMM yyyy HH:mm")<br>
+                        <strong>Durum:</strong>
+                        <span class="badge bg-@(Model.IsApproved ? "success" : "warning")">
+                            @(Model.IsApproved ? "Onaylı" : "Onay Bekliyor")
+                        </span>
+                    </div>
+                </div>
+
+                <h5>Proje Açıklaması</h5>
+                <p class="card-text">@Model.Description</p>
+
+                <h5>Dosya Bilgileri</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <strong>Dosya Adı:</strong> @Model.FileName
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Dosya Yolu:</strong> @Model.FilePath
+                    </li>
+                    <li class="list-group-item">
+                        <strong>İndirme Sayısı:</strong> @Model.DownloadCount
+                    </li>
+                </ul>
+            </div>
+            <div class="card-footer">
+                <div class="btn-group">
+                    <a asp-controller="Project" asp-action="Download" asp-route-id="@Model.Id"
+                       class="btn btn-outline-primary">
+                        <i class="fas fa-download"></i> Projeyi İndir
+                    </a>
+                    @if (!Model.IsApproved)
+                    {
+                        <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#approveModal">
+                            <i class="fas fa-check"></i> Onayla
+                        </button>
+                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#rejectModal">
+                            <i class="fas fa-times"></i> Reddet
+                        </button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="card-title mb-0">Admin Yorumları</h5>
+            </div>
+            <div class="card-body">
+                @if (ViewBag.AdminComments != null && ViewBag.AdminComments.Count > 0)
+                {
+                    @foreach (var comment in ViewBag.AdminComments)
+                    {
+                        <div class="mb-3 p-2 border rounded">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <strong class="text-@(comment.Action == "approve" ? "success" : comment.Action == "reject" ? "danger" : "info")">
+                                    @comment.AdminUsername
+                                </strong>
+                                <small class="text-muted">@comment.CreatedAt.ToString("dd MMM yy HH:mm")</small>
+                            </div>
+                            <p class="mb-1">@comment.Text</p>
+                            <span class="badge bg-@(comment.Action == "approve" ? "success" : comment.Action == "reject" ? "danger" : "info")">
+                                @(comment.Action == "approve" ? "Onay" : comment.Action == "reject" ? "Red" : "Yorum")
+                            </span>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p class="text-muted">Henüz admin yorumu bulunmamaktadır.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Approve Modal -->
+<div class="modal fade" id="approveModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form asp-action="ApproveProject" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" value="@Model.Id" />
+                <div class="modal-header">
+                    <h5 class="modal-title">Projeyi Onayla</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">Yorum (Opsiyonel)</label>
+                        <textarea name="commentText" class="form-control" rows="3"
+                                  placeholder="Onay için not ekleyebilirsiniz..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn btn-success">Onayla</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Reject Modal -->
+<div class="modal fade" id="rejectModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form asp-action="RejectProject" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" value="@Model.Id" />
+                <div class="modal-header">
+                    <h5 class="modal-title">Projeyi Reddet</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-warning">
+                        <strong>Uyarı:</strong> Bu işlem geri alınamaz. Proje tamamen silinecektir.
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Reddetme Sebebi</label>
+                        <textarea name="commentText" class="form-control" rows="3" required
+                                  placeholder="Reddetme sebebini belirtin..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn btn-danger">Reddet ve Sil</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

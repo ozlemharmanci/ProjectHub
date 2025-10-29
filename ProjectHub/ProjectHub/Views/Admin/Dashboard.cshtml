@@ -1,0 +1,329 @@
+﻿@using ProjectHub.Models
+@{
+    ViewData["Title"] = "Admin Paneli";
+    var pendingProjects = ViewData["PendingProjects"] as List<Project> ?? new List<Project>();
+    var approvedProjects = ViewData["ApprovedProjects"] as List<Project> ?? new List<Project>();
+    var allUsers = ViewData["AllUsers"] as List<User> ?? new List<User>();
+
+    // ViewData'dan gelen istatistikleri al
+    var totalDownloads = ViewData["TotalDownloads"] as int? ?? 0;
+    var activeUsers = ViewData["ActiveUsers"] as int? ?? 0;
+    var adminUsers = ViewData["AdminUsers"] as int? ?? 0;
+    var totalProjects = ViewData["TotalProjects"] as int? ?? 0;
+}
+
+<h2 class="mb-4">Admin Paneli</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fas fa-check-circle me-2"></i> @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-circle me-2"></i> @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-primary">
+            <div class="card-body text-center">
+                <h5 class="card-title">Toplam Kullanıcı</h5>
+                <p class="card-text display-6">@activeUsers</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-warning">
+            <div class="card-body text-center">
+                <h5 class="card-title">Onay Bekleyen</h5>
+                <p class="card-text display-6">@pendingProjects.Count</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-success">
+            <div class="card-body text-center">
+                <h5 class="card-title">Onaylanan</h5>
+                <p class="card-text display-6">@approvedProjects.Count</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-info">
+            <div class="card-body text-center">
+                <h5 class="card-title">Toplam Proje</h5>
+                <p class="card-text display-6">@totalProjects</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="card mb-4">
+    <div class="card-header bg-warning text-white">
+        <h4>Onay Bekleyen Projeler (@pendingProjects.Count)</h4>
+    </div>
+    <div class="card-body">
+        @if (pendingProjects.Count > 0)
+        {
+            <div class="list-group">
+                @foreach (var project in pendingProjects)
+                {
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">@project.Title</h5>
+                            <small>@project.UploadDate.ToString("dd MMMM yyyy")</small>
+                        </div>
+                        <p class="mb-1">@project.Description</p>
+                        <small>Yükleyen: @project.Username</small>
+                        <div class="mt-2">
+                            <a asp-action="ProjectDetails" asp-route-id="@project.Id" class="btn btn-sm btn-info">Detaylar</a>
+
+                            <!-- Onay Butonu -->
+                            <button type="button" class="btn btn-sm btn-success"
+                                    data-bs-toggle="modal" data-bs-target="#approveModal-@project.Id">
+                                Onayla
+                            </button>
+
+                            <!-- Red Butonu -->
+                            <button type="button" class="btn btn-sm btn-danger"
+                                    data-bs-toggle="modal" data-bs-target="#rejectModal-@project.Id">
+                                Reddet
+                            </button>
+                        </div>
+
+                        <!-- Onay Modal -->
+                        <div class="modal fade" id="approveModal-@project.Id" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form asp-action="ApproveProject" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@project.Id" />
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Projeyi Onayla</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p><strong>Proje:</strong> @project.Title</p>
+                                            <p><strong>Yükleyen:</strong> @project.Username</p>
+                                            <div class="form-group">
+                                                <label class="form-label">Yorum (Opsiyonel)</label>
+                                                <textarea name="commentText" class="form-control" rows="3"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                                            <button type="submit" class="btn btn-success">Onayla</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Red Modal -->
+                        <div class="modal fade" id="rejectModal-@project.Id" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form asp-action="RejectProject" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@project.Id" />
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Projeyi Reddet</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="alert alert-warning">
+                                                <strong>Uyarı:</strong> Bu işlem geri alınamaz. Proje tamamen silinecektir.
+                                            </div>
+                                            <p><strong>Proje:</strong> @project.Title</p>
+                                            <p><strong>Yükleyen:</strong> @project.Username</p>
+                                            <div class="form-group">
+                                                <label class="form-label">Reddetme Sebebi *</label>
+                                                <textarea name="commentText" class="form-control" rows="3" required></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                                            <button type="submit" class="btn btn-danger">Reddet ve Sil</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p class="text-muted">Onay bekleyen proje bulunmamaktadır.</p>
+        }
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header bg-success text-white">
+        <h4>Onaylanmış Projeler (@approvedProjects.Count)</h4>
+    </div>
+    <div class="card-body">
+        @if (approvedProjects.Count > 0)
+        {
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Proje Adı</th>
+                            <th>Yükleyen</th>
+                            <th>Yüklenme Tarihi</th>
+                            <th>İndirme Sayısı</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var project in approvedProjects)
+                        {
+                            <tr>
+                                <td>
+                                    <strong>@project.Title</strong>
+                                    <br>
+                                    <small class="text-muted">@(project.Description.Length > 50 ? project.Description.Substring(0, 50) + "..." : project.Description)</small>
+                                </td>
+                                <td>@project.Username</td>
+                                <td>@project.UploadDate.ToString("dd MMM yyyy")</td>
+                                <td>
+                                    <span class="badge bg-info">@project.DownloadCount</span>
+                                </td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <a asp-action="ProjectDetails" asp-route-id="@project.Id" class="btn btn-outline-info" title="Detaylar">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a asp-controller="Project" asp-action="Details" asp-route-id="@project.Id" class="btn btn-outline-primary" title="Kullanıcı Görünümü">
+                                            <i class="fas fa-external-link-alt"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <p class="text-muted">Onaylanmış proje bulunmamaktadır.</p>
+        }
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+        <h4>Kullanıcı Yönetimi (@allUsers.Count)</h4>
+    </div>
+    <div class="card-body">
+        @if (allUsers.Count > 0)
+        {
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Kullanıcı Adı</th>
+                            <th>E-posta</th>
+                            <th>Üyelik Tarihi</th>
+                            <th>Admin</th>
+                            <th>Proje Sayısı</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in allUsers)
+                        {
+                            var userProjects = approvedProjects.Count(p => p.UserId == user.Id) + pendingProjects.Count(p => p.UserId == user.Id);
+                            <tr>
+                                <td>
+                                    <strong>@user.Username</strong>
+                                    @if (user.IsAdmin)
+                                    {
+                                        <span class="badge bg-warning ms-1">Admin</span>
+                                    }
+                                </td>
+                                <td>@user.Email</td>
+                                <td>@user.CreatedAt.ToString("dd MMM yyyy")</td>
+                                <td>
+                                    @if (user.IsAdmin)
+                                    {
+                                        <span class="badge bg-success">Evet</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">Hayır</span>
+                                    }
+                                </td>
+                                <td>
+                                    <span class="badge bg-info">@userProjects</span>
+                                </td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <a asp-controller="Account" asp-action="Profile" asp-route-username="@user.Username"
+                                           class="btn btn-outline-primary" title="Profili Gör">
+                                            <i class="fas fa-user"></i>
+                                        </a>
+                                        @if (!user.IsAdmin)
+                                        {
+                                            <form asp-action="MakeAdmin" method="post" class="d-inline">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="userId" value="@user.Id" />
+                                                <button type="submit" class="btn btn-outline-warning" title="Admin Yap">
+                                                    <i class="fas fa-shield-alt"></i>
+                                                </button>
+                                            </form>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <p class="text-muted">Kullanıcı bulunmamaktadır.</p>
+        }
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script>
+        // Modal açıldığında textarea'ya focus olması
+        document.addEventListener('DOMContentLoaded', function () {
+            var modals = document.querySelectorAll('.modal');
+            modals.forEach(function (modal) {
+                modal.addEventListener('shown.bs.modal', function () {
+                    var textarea = this.querySelector('textarea');
+                    if (textarea) {
+                        textarea.focus();
+                    }
+                });
+            });
+        });
+
+        // Sayfa yüklendiğinde alert'leri otomatik kapat
+        setTimeout(function () {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                const bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            });
+        });
+    </script>
+}

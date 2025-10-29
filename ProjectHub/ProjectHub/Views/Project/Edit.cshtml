@@ -1,0 +1,103 @@
+﻿@model ProjectHub.Models.Project
+
+@{
+    ViewData["Title"] = "Proje Düzenle";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-warning text-white">
+                <h3 class="card-title">Proje Düzenle</h3>
+            </div>
+            <div class="card-body">
+                <form asp-action="Edit" method="post">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="UserId" />
+                    <input type="hidden" asp-for="Username" />
+                    <input type="hidden" asp-for="FileName" />
+                    <input type="hidden" asp-for="FilePath" />
+                    <input type="hidden" asp-for="UploadDate" />
+                    <input type="hidden" asp-for="DownloadCount" />
+                    <input type="hidden" asp-for="IsApproved" />
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="alert alert-info mb-4">
+                        <h6 class="alert-heading">Proje Bilgileri</h6>
+                        <p class="mb-1"><strong>Dosya Adı:</strong> @Model.FileName</p>
+                        <p class="mb-1"><strong>Yüklenme Tarihi:</strong> @Model.UploadDate.ToString("dd MMMM yyyy HH:mm")</p>
+                        <p class="mb-1">
+                            <strong>Durum:</strong>
+                            <span class="badge bg-@(Model.IsApproved ? "success" : "warning")">
+                                @(Model.IsApproved ? "Onaylı" : "Onay Bekliyor")
+                            </span>
+                        </p>
+                        <p class="mb-0"><strong>İndirme Sayısı:</strong> @Model.DownloadCount</p>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Title" class="form-label">Proje Başlığı *</label>
+                        <input asp-for="Title" class="form-control" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label asp-for="Description" class="form-label">Proje Açıklaması *</label>
+                        <textarea asp-for="Description" class="form-control" rows="6"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                        <small class="form-text text-muted">Projenizi detaylı bir şekilde anlatın.</small>
+                    </div>
+
+                    <div class="alert alert-warning">
+                        <h6 class="alert-heading">Dikkat</h6>
+                        <p class="mb-0">
+                            Proje dosyasını değiştirmek istiyorsanız, yeni bir proje oluşturmanız gerekmektedir.
+                            Mevcut dosya değiştirilemez.
+                        </p>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-warning w-100">
+                            <i class="fas fa-save"></i> Değişiklikleri Kaydet
+                        </button>
+                    </div>
+                </form>
+
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-primary w-100">
+                            <i class="fas fa-eye"></i> Projeyi Görüntüle
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <a asp-action="MyProjects" class="btn btn-outline-secondary w-100">
+                            <i class="fas fa-arrow-left"></i> Projelerime Dön
+                        </a>
+                    </div>
+                </div>
+
+                @if (!Model.IsApproved)
+                {
+                    <hr class="my-4">
+                    <div class="text-center">
+                        <form asp-action="Delete" method="post" onsubmit="return confirmDelete()">
+                            <input type="hidden" name="id" value="@Model.Id" />
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> Projeyi Sil
+                            </button>
+                        </form>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function confirmDelete() {
+            return confirm('Bu projeyi silmek istediğinize emin misiniz? Bu işlem geri alınamaz.');
+        }
+    </script>
+}

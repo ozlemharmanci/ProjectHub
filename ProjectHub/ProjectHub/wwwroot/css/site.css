@@ -1,0 +1,98 @@
+/* Body ve HTML ayarlarý */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Wrapper düzeni */
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Main content - Esnek alan */
+.main-content {
+    flex: 1;
+    padding-bottom: 80px;
+}
+
+/* Footer sabit alt kýsýmda */
+.footer {
+    background-color: #343a40 !important;
+    border-top: 1px solid #495057;
+    margin-top: auto;
+    width: 100%;
+}
+
+/* Responsive düzenlemeler */
+@media (max-width: 768px) {
+    .main-content {
+        padding-bottom: 100px;
+    }
+
+    .footer .text-end {
+        text-align: left !important;
+        margin-top: 10px;
+    }
+}
+
+/* Navbar stilleri */
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+/* Card stilleri */
+.card {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    margin-bottom: 1rem;
+}
+
+/* Özel renkler */
+.text-primary {
+    color: #6c63ff !important;
+}
+
+.bg-primary {
+    background-color: #6c63ff !important;
+}
+
+.btn-primary {
+    background-color: #6c63ff;
+    border-color: #6c63ff;
+}
+
+    .btn-primary:hover {
+        background-color: #554fd8;
+        border-color: #554fd8;
+    }
+
+/* List group item hover */
+.list-group-item-action:hover {
+    background-color: #f8f9fa;
+    border-left: 3px solid #6c63ff;
+}
+
+/* Alert stilleri */
+.alert {
+    border: none;
+    border-left: 4px solid;
+}
+
+.alert-success {
+    border-left-color: #198754;
+}
+
+.alert-danger {
+    border-left-color: #dc3545;
+}
